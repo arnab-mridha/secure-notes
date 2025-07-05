@@ -4,6 +4,9 @@ import com.secure.notes.models.AppRole;
 import com.secure.notes.models.*;
 import com.secure.notes.repositories.RoleRepository;
 import com.secure.notes.repositories.UserRepository;
+import jakarta.servlet.Filter;
+import jakarta.servlet.FilterChain;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -19,6 +22,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.provisioning.JdbcUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import javax.sql.DataSource;
 
@@ -32,6 +36,12 @@ import static org.springframework.security.config.Customizer.withDefaults;
         securedEnabled = true,
         jsr250Enabled = true)
 public class SecurityConfig {
+//    @Autowired
+//    CustomLoggingFilter customLoggingFilter;
+//
+//    @Autowired
+//    RequestValidationFilter requestValidationFilter;
+
     @Bean
     SecurityFilterChain defaultSecurityFilterChain(HttpSecurity http) throws Exception {
         http.authorizeHttpRequests((requests)
@@ -41,6 +51,8 @@ public class SecurityConfig {
         http.csrf(AbstractHttpConfigurer::disable);
         //http.formLogin(withDefaults());
         http.httpBasic(withDefaults());
+//        http.addFilterBefore(customLoggingFilter, UsernamePasswordAuthenticationFilter.class);
+//        http.addFilterAfter(requestValidationFilter,CustomLoggingFilter.class);
         return http.build();
     }
 
